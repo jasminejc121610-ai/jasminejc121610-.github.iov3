@@ -1,0 +1,546 @@
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--sakura:#E8849A;--sakura-l:#FDF0F4;--sakura-m:#F9CDD8;
+--teal:#0891B2;--teal-l:#ECFEFF;
+--amber:#D97706;--amber-l:#FFFBEB;
+--violet:#7C3AED;--violet-l:#F5F3FF;
+--green:#059669;--green-l:#F0FDF4;
+--ink:#18181B;--sub:#71717A;--bdr:#E4E4E7;--bg:#FAFAFA;--wh:#fff;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+
+.hero{background:linear-gradient(135deg,#FDF0F4 0%,#ECF9FF 50%,#F5F3FF 100%);border-bottom:1px solid var(--bdr);padding:18px 18px 0}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:8px}
+.brand-row{display:flex;align-items:center;gap:10px}
+.logo{width:40px;height:40px;background:var(--sakura);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo i{color:#fff;font-size:20px}
+.h-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);line-height:1.1}
+.h-sub{font-size:11px;color:var(--sub);margin-top:2px}
+.lang-row{display:flex;gap:4px;flex-shrink:0}
+.lb{padding:4px 9px;border:1px solid var(--bdr);border-radius:20px;font-size:11px;background:var(--wh);color:var(--sub);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.lb.on{background:var(--sakura);color:#fff;border-color:var(--sakura)}
+
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none;margin:0 -18px;padding:0 18px;border-top:1px solid var(--sakura-m)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:10px 14px;border:none;background:none;font-size:12px;font-family:'DM Sans',sans-serif;color:var(--sub);cursor:pointer;border-bottom:2px solid transparent;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:color .15s;margin-bottom:-1px}
+.tab i{font-size:15px}
+.tab.on{color:var(--sakura);border-bottom-color:var(--sakura);font-weight:500}
+.tab:hover:not(.on){color:var(--ink)}
+
+.body{padding:14px 18px}
+.panel{display:none}.panel.on{display:block}
+
+.share-bar{background:var(--teal-l);border:1px solid #A5F3FC;border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.share-bar i{color:var(--teal);font-size:18px;flex-shrink:0}
+.share-txt{flex:1;min-width:160px}
+.share-txt strong{font-size:12px;color:#0E7490;display:block;font-weight:500}
+.share-txt span{font-size:11px;color:#0891B2}
+.share-btn{padding:6px 12px;background:var(--teal);color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background .15s}
+.share-btn:hover{background:#0E7490}
+.copy-ok{font-size:11px;color:var(--green);display:none}
+
+.days{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:12px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex-shrink:0;width:50px;padding:8px 4px;border:1.5px solid var(--bdr);border-radius:10px;text-align:center;cursor:pointer;background:var(--wh);transition:all .15s}
+.day:hover:not(.on){border-color:var(--sakura-m)}
+.day.on{background:var(--sakura);border-color:var(--sakura)}
+.day-wd{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--sub)}
+.day.on .day-wd,.day.on .day-mo{color:rgba(255,255,255,.75)}
+.day-num{font-size:19px;font-weight:500;color:var(--ink);line-height:1.1}
+.day.on .day-num{color:#fff}
+.day-mo{font-size:9px;color:var(--sub)}
+
+.add-row{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+.add-row input,.add-row select{height:36px;padding:0 10px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--wh);color:var(--ink);transition:border-color .15s}
+.add-row input:focus,.add-row select:focus{outline:none;border-color:var(--sakura)}
+.fi{flex:1;min-width:130px}
+.ft{width:100px}
+.fn{width:110px}
+.btn{height:36px;padding:0 14px;background:var(--sakura);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:background .15s;flex-shrink:0}
+.btn:hover{background:#C8546A}
+.btn-sm{height:28px;padding:0 10px;font-size:11px;border-radius:6px;gap:4px}
+.btn-teal{background:var(--teal)}.btn-teal:hover{background:#0E7490}
+.btn-violet{background:var(--violet)}.btn-violet:hover{background:#6D28D9}
+.btn-amber{background:var(--amber)}.btn-amber:hover{background:#B45309}
+
+.cards{display:flex;flex-direction:column;gap:6px}
+.card{background:var(--wh);border:1.5px solid var(--bdr);border-radius:10px;padding:10px 12px;transition:border-color .15s}
+.card:hover{border-color:#d4d4d8}
+.card-top{display:flex;align-items:center;gap:8px}
+.card.done .clbl{text-decoration:line-through;color:#a1a1aa}
+.clbl{flex:1;font-size:13px;color:var(--ink)}
+.cmeta{font-size:11px;color:var(--sub);white-space:nowrap}
+.csub{font-size:10px;color:#a1a1aa;white-space:nowrap}
+.card-loc{display:flex;align-items:center;gap:6px;margin-top:7px;padding-top:7px;border-top:1px solid var(--bdr)}
+.card-loc i{font-size:13px;color:var(--teal)}
+.card-loc a{font-size:11px;color:var(--teal);text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-loc a:hover{text-decoration:underline}
+.loc-input-row{display:flex;gap:6px;margin-top:7px;padding-top:7px;border-top:1px solid var(--bdr)}
+.loc-input-row input{flex:1;height:28px;padding:0 8px;border:1px solid var(--bdr);border-radius:6px;font-size:12px;font-family:'DM Sans',sans-serif}
+
+.pill{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;white-space:nowrap;letter-spacing:.01em;flex-shrink:0}
+.p-food{background:#FEF2F2;color:#991B1B}
+.p-shop{background:#F0FDF4;color:#14532D}
+.p-anime{background:#EFF6FF;color:#1E3A8A}
+.p-train{background:#FFFBEB;color:#78350F}
+.p-hotel{background:#F5F3FF;color:#4C1D95}
+.p-other{background:#F4F4F5;color:#3F3F46}
+.p-clothes{background:#FDF4FF;color:#6B21A8}
+.p-tech{background:#EFF6FF;color:#1E3A8A}
+.p-docs{background:#FFF7ED;color:#7C2D12}
+.p-health{background:#F0FDF4;color:#14532D}
+
+.del-btn{background:none;border:none;cursor:pointer;color:#D4D4D8;font-size:16px;display:flex;align-items:center;padding:2px;transition:color .15s;flex-shrink:0}
+.del-btn:hover{color:var(--sakura)}
+.chk{width:20px;height:20px;border:1.5px solid var(--bdr);border-radius:6px;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.chk.on{background:var(--sakura);border-color:var(--sakura);color:#fff}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{border-radius:10px;padding:12px;text-align:center}
+.stat-pink{background:var(--sakura-l);border:1px solid var(--sakura-m)}
+.stat-teal{background:var(--teal-l);border:1px solid #A5F3FC}
+.stat-amber{background:var(--amber-l);border:1px solid #FDE68A}
+.sv{font-size:18px;font-weight:500;line-height:1}
+.sv-pink{color:#BE123C}.sv-teal{color:var(--teal)}.sv-amber{color:var(--amber)}
+.sl{font-size:10px;color:var(--sub);margin-top:3px;letter-spacing:.02em}
+
+.note-area{width:100%;min-height:80px;padding:10px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;resize:vertical;margin-bottom:8px}
+.note-area:focus{outline:none;border-color:var(--sakura)}
+.weather-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.w-chip{padding:6px 12px;border-radius:20px;font-size:11px;border:1px solid var(--bdr);background:var(--wh);color:var(--sub);cursor:default}
+.w-chip i{margin-right:4px}
+
+.sec{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin:12px 0 7px}
+.map-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mcard{background:var(--wh);border:1.5px solid var(--bdr);border-radius:10px;padding:14px 12px;cursor:pointer;transition:all .15s;text-align:left}
+.mcard:hover{transform:translateY(-1px)}
+.mcard i{font-size:22px;margin-bottom:6px;display:block}
+.mc-food i{color:#DC2626}.mc-food:hover{border-color:#FECACA;background:#FEF2F2}
+.mc-train i{color:var(--amber)}.mc-train:hover{border-color:#FDE68A;background:var(--amber-l)}
+.mc-shop i{color:var(--violet)}.mc-shop:hover{border-color:#DDD6FE;background:var(--violet-l)}
+.mc-wc i{color:var(--teal)}.mc-wc:hover{border-color:#A5F3FC;background:var(--teal-l)}
+.mc-anime i{color:#2563EB}.mc-anime:hover{border-color:#BFDBFE;background:#EFF6FF}
+.mc-green i{color:var(--green)}.mc-green:hover{border-color:#BBF7D0;background:var(--green-l)}
+.mcard-t{font-size:12px;font-weight:500;color:var(--ink)}
+.mcard-s{font-size:11px;color:var(--sub);margin-top:2px}
+
+.tip{background:linear-gradient(135deg,var(--sakura-l),#ECF9FF);border:1px solid var(--sakura-m);border-radius:10px;padding:12px 14px;margin-top:12px}
+.tip-h{font-size:11px;font-weight:500;color:#9F1239;margin-bottom:8px}
+.tip-r{font-size:12px;color:#4B5563;padding:3px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.5}
+.tip-r i{font-size:14px;flex-shrink:0;margin-top:1px;color:var(--sakura)}
+
+.help-box{background:var(--wh);border:1.5px solid var(--bdr);border-radius:10px;padding:14px}
+.help-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bdr);align-items:flex-start}
+.help-item:last-child{border-bottom:none;padding-bottom:0}
+.help-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.hi-sakura{background:var(--sakura-l);color:var(--sakura)}
+.hi-teal{background:var(--teal-l);color:var(--teal)}
+.hi-amber{background:var(--amber-l);color:var(--amber)}
+.hi-violet{background:var(--violet-l);color:var(--violet)}
+.hi-green{background:var(--green-l);color:var(--green)}
+.help-t{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.help-s{font-size:12px;color:var(--sub);line-height:1.5}
+
+.empty{padding:28px 16px;text-align:center;color:#D4D4D8;font-size:13px}
+.modal-bg{display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:10;align-items:flex-start;justify-content:center;padding-top:40px}
+.modal-bg.on{display:flex}
+.modal{background:var(--wh);border-radius:14px;padding:20px;width:90%;max-width:400px}
+.modal-h{font-size:15px;font-weight:500;margin-bottom:12px;color:var(--ink)}
+.modal textarea{width:100%;height:60px;padding:8px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;font-family:'DM Sans',sans-serif;margin-bottom:8px;resize:none}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end}
+.btn-ghost{padding:6px 14px;border:1px solid var(--bdr);border-radius:8px;background:none;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;color:var(--sub)}
+</style>
+
+<div style="position:relative">
+<div class="hero">
+  <div class="hero-top">
+    <div class="brand-row">
+      <div class="logo"><i class="ti ti-torii-gate" aria-hidden="true"></i></div>
+      <div>
+        <div class="h-title" id="ht">🌸 Tokyo Trip</div>
+        <div class="h-sub" id="hs">8月8–15日 · 3–4人 · HKD & JPY</div>
+      </div>
+    </div>
+    <div class="lang-row">
+      <button class="lb" onclick="setL('en')">EN</button>
+      <button class="lb on" onclick="setL('zh')">繁</button>
+      <button class="lb" onclick="setL('ja')">日</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="sw('it')"><i class="ti ti-calendar" aria-hidden="true"></i><span id="nt0">行程</span></button>
+    <button class="tab" onclick="sw('bud')"><i class="ti ti-coin" aria-hidden="true"></i><span id="nt1">預算</span></button>
+    <button class="tab" onclick="sw('pk')"><i class="ti ti-backpack" aria-hidden="true"></i><span id="nt2">行李</span></button>
+    <button class="tab" onclick="sw('bk')"><i class="ti ti-building" aria-hidden="true"></i><span id="nt3">訂票</span></button>
+    <button class="tab" onclick="sw('mp')"><i class="ti ti-map-2" aria-hidden="true"></i><span id="nt4">地圖</span></button>
+    <button class="tab" onclick="sw('note')"><i class="ti ti-notes" aria-hidden="true"></i><span id="nt5">筆記</span></button>
+    <button class="tab" onclick="sw('help')"><i class="ti ti-info-circle" aria-hidden="true"></i><span id="nt6">說明</span></button>
+  </div>
+</div>
+
+<div class="body">
+
+<!-- SHARE BAR -->
+<div class="share-bar">
+  <i class="ti ti-share" aria-hidden="true"></i>
+  <div class="share-txt">
+    <strong id="sh-t">分享給家人</strong>
+    <span id="sh-s">複製資料連結，家人可在任何裝置開啟同步瀏覽</span>
+  </div>
+  <button class="share-btn" onclick="shareData()" id="sh-btn">複製連結</button>
+  <span class="copy-ok" id="copy-ok"><i class="ti ti-check"></i> 已複製！</span>
+</div>
+
+<!-- ITINERARY -->
+<div id="p-it" class="panel on">
+  <div class="days" id="dstrip"></div>
+  <div class="add-row">
+    <input type="time" id="it-tm" class="ft">
+    <input type="text" id="it-n" class="fi" placeholder="活動名稱...">
+    <input type="text" id="it-loc" style="width:130px;height:36px" placeholder="地點（選填）">
+    <select id="it-c" style="height:36px">
+      <option value="food">餐飲</option><option value="shop">購物</option>
+      <option value="anime">動漫</option><option value="train">交通</option><option value="other">其他</option>
+    </select>
+    <button class="btn" onclick="addIt()"><i class="ti ti-plus" aria-hidden="true"></i><span id="ab0">新增</span></button>
+  </div>
+  <div class="cards" id="it-list"></div>
+</div>
+
+<!-- BUDGET -->
+<div id="p-bud" class="panel">
+  <div class="stats" id="bst"></div>
+  <div class="add-row">
+    <input type="text" id="ex-n" class="fi" placeholder="支出項目...">
+    <input type="number" id="ex-a" class="fn" placeholder="金額">
+    <select id="ex-cur" style="height:36px;width:90px"><option value="JPY">¥ JPY</option><option value="HKD">HK$</option></select>
+    <select id="ex-c" style="height:36px">
+      <option value="food">餐飲</option><option value="shop">購物</option>
+      <option value="anime">動漫</option><option value="train">交通</option><option value="other">其他</option>
+    </select>
+    <button class="btn" onclick="addEx()"><i class="ti ti-plus" aria-hidden="true"></i></button>
+  </div>
+  <div class="cards" id="ex-list"></div>
+</div>
+
+<!-- PACKING -->
+<div id="p-pk" class="panel">
+  <div class="stats" id="pst"></div>
+  <div class="add-row">
+    <input type="text" id="pk-n" class="fi" placeholder="行李物品...">
+    <select id="pk-c" style="height:36px">
+      <option value="clothes">衣物</option><option value="tech">電子</option>
+      <option value="docs">文件</option><option value="health">健康</option><option value="other">其他</option>
+    </select>
+    <button class="btn" onclick="addPk()"><i class="ti ti-plus" aria-hidden="true"></i></button>
+  </div>
+  <div class="cards" id="pk-list"></div>
+</div>
+
+<!-- BOOKINGS -->
+<div id="p-bk" class="panel">
+  <div class="add-row">
+    <input type="text" id="bk-n" class="fi" placeholder="酒店 / 機票 / 鐵路票...">
+    <input type="date" id="bk-d" style="height:36px;width:140px">
+    <select id="bk-t" style="height:36px"><option value="hotel">酒店</option><option value="train">交通</option><option value="other">其他</option></select>
+    <button class="btn" onclick="addBk()"><i class="ti ti-plus" aria-hidden="true"></i></button>
+  </div>
+  <div class="add-row" style="margin-top:-4px">
+    <input type="text" id="bk-ref" class="fi" placeholder="確認號碼 / 備注（選填）">
+    <input type="url" id="bk-link" style="flex:1;min-width:130px;height:36px;padding:0 10px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px" placeholder="訂票連結（選填）">
+  </div>
+  <div class="cards" id="bk-list"></div>
+</div>
+
+<!-- MAPS -->
+<div id="p-mp" class="panel">
+  <div class="sec" id="mpl">快速開啟東京地圖</div>
+  <div class="map-grid">
+    <div class="mcard mc-wc" onclick="openLink('https://www.google.com/maps/search/public+toilet+tokyo')"><i class="ti ti-toilet-paper" aria-hidden="true"></i><div class="mcard-t" id="mc0">廁所搜尋</div><div class="mcard-s" id="mc0s">附近公共廁所</div></div>
+    <div class="mcard mc-train" onclick="openLink('https://www.tokyometro.jp/en/subwaymap/')"><i class="ti ti-train" aria-hidden="true"></i><div class="mcard-t" id="mc1">地鐵路線圖</div><div class="mcard-s" id="mc1s">東京Metro全線</div></div>
+    <div class="mcard mc-food" onclick="openLink('https://www.google.com/maps/search/ramen+tokyo')"><i class="ti ti-bowl" aria-hidden="true"></i><div class="mcard-t" id="mc2">拉麵店</div><div class="mcard-s" id="mc2s">附近高評分餐廳</div></div>
+    <div class="mcard mc-anime" onclick="openLink('https://www.google.com/maps/search/anime+store+akihabara')"><i class="ti ti-star" aria-hidden="true"></i><div class="mcard-t" id="mc3">秋葉原動漫</div><div class="mcard-s" id="mc3s">動漫及漫畫店</div></div>
+    <div class="mcard mc-shop" onclick="openLink('https://www.google.com/maps/search/shopping+shibuya+harajuku')"><i class="ti ti-shopping-bag" aria-hidden="true"></i><div class="mcard-t" id="mc4">購物區</div><div class="mcard-s" id="mc4s">澀谷・原宿・新宿</div></div>
+    <div class="mcard mc-green" onclick="openLink('https://www.google.com/maps/search/convenience+store+tokyo')"><i class="ti ti-building-store" aria-hidden="true"></i><div class="mcard-t" id="mc5">便利店</div><div class="mcard-s" id="mc5s">7-11、全家、羅森</div></div>
+  </div>
+  <div class="sec" style="margin-top:14px">搜尋地點</div>
+  <div class="add-row">
+    <input type="text" id="ms-q" class="fi" placeholder="輸入地點名稱...">
+    <button class="btn btn-teal" onclick="mapSearch()"><i class="ti ti-search" aria-hidden="true"></i> 搜尋</button>
+  </div>
+  <div class="tip">
+    <div class="tip-h" id="tth">🌸 東京旅遊貼士</div>
+    <div class="tip-r"><i class="ti ti-credit-card" aria-hidden="true"></i><span>Suica / Pasmo IC卡可用於所有電車、巴士及便利店付款。</span></div>
+    <div class="tip-r"><i class="ti ti-wifi" aria-hidden="true"></i><span>可在機場租借Pocket WiFi或購買SIM卡，全程保持上網。</span></div>
+    <div class="tip-r"><i class="ti ti-droplet" aria-hidden="true"></i><span>東京自來水安全可直接飲用，可自備水樽節省費用。</span></div>
+    <div class="tip-r"><i class="ti ti-clock" aria-hidden="true"></i><span>末班車約於午夜12時，深夜活動需提前計劃。</span></div>
+    <div class="tip-r"><i class="ti ti-receipt" aria-hidden="true"></i><span>購物滿¥5,000可辦理免稅退稅，記得帶護照。</span></div>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div id="p-note" class="panel">
+  <div class="sec">旅遊筆記 / 備忘</div>
+  <textarea class="note-area" id="note-ta" placeholder="記錄旅遊心得、待辦事項、重要資訊..." oninput="saveNote()"></textarea>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+    <button class="btn btn-sm btn-teal" onclick="addTemplate('food')"><i class="ti ti-bowl" aria-hidden="true"></i> 加入餐廳模板</button>
+    <button class="btn btn-sm btn-violet" onclick="addTemplate('shop')"><i class="ti ti-shopping-bag" aria-hidden="true"></i> 購物清單模板</button>
+    <button class="btn btn-sm btn-amber" onclick="addTemplate('todo')"><i class="ti ti-checkbox" aria-hidden="true"></i> 待辦清單模板</button>
+  </div>
+  <div class="sec">天氣參考（8月東京）</div>
+  <div class="weather-bar">
+    <div class="w-chip"><i class="ti ti-thermometer" style="color:#DC2626"></i>33–35°C 高溫</div>
+    <div class="w-chip"><i class="ti ti-droplet" style="color:var(--teal)"></i>潮濕多汗</div>
+    <div class="w-chip"><i class="ti ti-cloud-rain" style="color:var(--teal)"></i>偶有驟雨</div>
+    <div class="w-chip"><i class="ti ti-sun" style="color:var(--amber)"></i>防曬必備</div>
+    <div class="w-chip"><i class="ti ti-shirt" style="color:var(--violet)"></i>薄身透氣衫</div>
+  </div>
+</div>
+
+<!-- HELP -->
+<div id="p-help" class="panel">
+  <div class="sec">功能說明</div>
+  <div class="help-box">
+    <div class="help-item">
+      <div class="help-icon hi-sakura"><i class="ti ti-calendar" aria-hidden="true"></i></div>
+      <div><div class="help-t">📅 每日行程</div><div class="help-s">按日期選擇行程日，新增活動時可填入時間、地點名稱及類別。每個活動都可儲存Google Maps地點連結，點擊即可直接導航。</div></div>
+    </div>
+    <div class="help-item">
+      <div class="help-icon hi-teal"><i class="ti ti-coin" aria-hidden="true"></i></div>
+      <div><div class="help-t">💰 預算追蹤</div><div class="help-s">支援日圓（¥）及港元（HK$）雙幣輸入，自動互相換算。顯示總支出及每人平均費用，方便AA制計算。</div></div>
+    </div>
+    <div class="help-item">
+      <div class="help-icon hi-violet"><i class="ti ti-backpack" aria-hidden="true"></i></div>
+      <div><div class="help-t">🎒 行李清單</div><div class="help-s">新增行李物品，按類別整理（衣物、電子、文件等）。打勾即標記為已打包，追蹤打包進度。</div></div>
+    </div>
+    <div class="help-item">
+      <div class="help-icon hi-amber"><i class="ti ti-building" aria-hidden="true"></i></div>
+      <div><div class="help-t">🏨 訂票管理</div><div class="help-s">記錄酒店、機票、JR Pass等預訂資料，可儲存確認號碼及訂票連結，方便出行時查閱。</div></div>
+    </div>
+    <div class="help-item">
+      <div class="help-icon hi-teal"><i class="ti ti-map-2" aria-hidden="true"></i></div>
+      <div><div class="help-t">🗺️ 地圖捷徑</div><div class="help-s">一鍵開啟廁所位置、地鐵路線圖、拉麵店、秋葉原、購物區等常用地圖，另設地點搜尋功能。</div></div>
+    </div>
+    <div class="help-item">
+      <div class="help-icon hi-green"><i class="ti ti-share" aria-hidden="true"></i></div>
+      <div><div class="help-t">🔗 分享給家人</div><div class="help-s">點擊頂部「複製連結」，將所有行程資料編碼成連結，家人只需開啟連結即可查看完整計劃，無需登入或安裝任何程式。</div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- MODAL for location -->
+<div class="modal-bg" id="loc-modal">
+  <div class="modal">
+    <div class="modal-h" id="lm-h">新增地點連結</div>
+    <input type="text" id="lm-name" placeholder="地點名稱（如：一蘭拉麵 道頓堀店）" style="width:100%;height:36px;padding:0 10px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;margin-bottom:8px">
+    <input type="url" id="lm-url" placeholder="Google Maps 連結（選填）" style="width:100%;height:36px;padding:0 10px;border:1.5px solid var(--bdr);border-radius:8px;font-size:13px;margin-bottom:8px">
+    <div class="modal-btns">
+      <button class="btn-ghost" onclick="closeLocModal()">取消</button>
+      <button class="btn" onclick="saveLocModal()">儲存地點</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+const DAYS_DATA=[{wd:'五',n:'8',mo:'8月'},{wd:'六',n:'9',mo:'8月'},{wd:'日',n:'10',mo:'8月'},{wd:'一',n:'11',mo:'8月'},{wd:'二',n:'12',mo:'8月'},{wd:'三',n:'13',mo:'8月'},{wd:'四',n:'14',mo:'8月'},{wd:'五',n:'15',mo:'8月'}];
+const WDS={en:['Fri','Sat','Sun','Mon','Tue','Wed','Thu','Fri'],zh:['五','六','日','一','二','三','四','五'],ja:['金','土','日','月','火','水','木','金']};
+const R=0.059;
+let ci=0,lang='zh',locTarget=null;
+let D={it:{},ex:[],pk:[],bk:[],note:''};
+try{const s=localStorage.getItem('tkv4');if(s)D=JSON.parse(s)}catch(e){}
+
+const TX={
+en:{nav:['Itinerary','Budget','Packing','Bookings','Maps','Notes','Help'],add:'Add',brand:'🌸 Tokyo Trip',sub:'Aug 8–15 · 3–4 people · HKD & JPY',
+  sh_t:'Share with family',sh_s:'Copy link — family can open on any device',sh_btn:'Copy link',copied:'Copied!',
+  sp:'Total (JPY)',sh:'Total (HKD)',pp:'Per person',it:'Items',pk:'Packed',lf:'Remaining',emp:'Nothing yet — add above',
+  mpl:'Quick-open maps',tth:'🌸 Tokyo tips',add_loc:'Add location',save_loc:'Save location'},
+zh:{nav:['行程','預算','行李','訂票','地圖','筆記','說明'],add:'新增',brand:'🌸 東京旅遊',sub:'8月8–15日 · 3–4人 · HKD & JPY',
+  sh_t:'分享給家人',sh_s:'複製資料連結，家人可在任何裝置開啟',sh_btn:'複製連結',copied:'已複製！',
+  sp:'總支出（日圓）',sh:'總支出（港元）',pp:'每人均攤',it:'物品',pk:'已打包',lf:'未打包',emp:'尚未新增任何項目',
+  mpl:'快速開啟東京地圖',tth:'🌸 東京旅遊貼士',add_loc:'新增地點',save_loc:'儲存地點'},
+ja:{nav:['行程','予算','荷物','予約','地図','メモ','ヘルプ'],add:'追加',brand:'🌸 東京旅行',sub:'8月8–15日 · 3–4名 · HKD & JPY',
+  sh_t:'家族と共有',sh_s:'リンクをコピーして家族に送る',sh_btn:'リンクコピー',copied:'コピー済！',
+  sp:'合計（円）',sh:'合計（HKD）',pp:'一人あたり',it:'アイテム',pk:'完了',lf:'残り',emp:'まだ何もありません',
+  mpl:'東京マップを開く',tth:'🌸 東京のヒント',add_loc:'場所を追加',save_loc:'保存'}
+};
+
+function t(){return TX[lang]}
+function save(){try{localStorage.setItem('tkv4',JSON.stringify(D))}catch(e){}}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+function pill(c){
+  const labels={food:{zh:'餐飲',en:'Food',ja:'グルメ'},shop:{zh:'購物',en:'Shop',ja:'ショッピング'},anime:{zh:'動漫',en:'Anime',ja:'アニメ'},train:{zh:'交通',en:'Transport',ja:'交通'},hotel:{zh:'酒店',en:'Hotel',ja:'ホテル'},other:{zh:'其他',en:'Other',ja:'その他'},clothes:{zh:'衣物',en:'Clothes',ja:'衣類'},tech:{zh:'電子',en:'Tech',ja:'電子'},docs:{zh:'文件',en:'Docs',ja:'書類'},health:{zh:'健康',en:'Health',ja:'健康'}};
+  const l=(labels[c]||{})[lang]||c;
+  return`<span class="pill p-${c}">${l}</span>`;
+}
+
+function sw(id){
+  const ids=['it','bud','pk','bk','mp','note','help'];
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('on',ids[i]===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id==='p-'+id));
+  if(id==='note')document.getElementById('note-ta').value=D.note||'';
+  render();
+}
+
+function setL(l){
+  lang=l;
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.getAttribute('onclick').includes("'"+l+"'")));
+  document.getElementById('ht').textContent=t().brand;
+  document.getElementById('hs').textContent=t().sub;
+  document.querySelectorAll('.tab span').forEach((s,i)=>s.textContent=t().nav[i]);
+  document.getElementById('ab0').textContent=t().add;
+  document.getElementById('sh-t').textContent=t().sh_t;
+  document.getElementById('sh-s').textContent=t().sh_s;
+  document.getElementById('sh-btn').textContent=t().sh_btn;
+  buildDays();render();
+}
+
+function buildDays(){
+  const wds=WDS[lang];
+  document.getElementById('dstrip').innerHTML=DAYS_DATA.map((d,i)=>`<div class="day${i===ci?' on':''}" onclick="setDay(${i})"><div class="day-wd">${wds[i]}</div><div class="day-num">${d.n}</div><div class="day-mo">${d.mo}</div></div>`).join('');
+}
+function setDay(i){ci=i;buildDays();renderIt()}
+
+function render(){renderIt();renderEx();renderPk();renderBk()}
+
+function gmapUrl(loc){
+  if(!loc)return null;
+  if(loc.startsWith('http'))return loc;
+  return'https://www.google.com/maps/search/'+encodeURIComponent(loc+' Tokyo');
+}
+
+function renderIt(){
+  buildDays();
+  const k='d'+ci,items=(D.it[k]||[]).slice().sort((a,b)=>a.tm.localeCompare(b.tm));
+  const el=document.getElementById('it-list');
+  if(!items.length){el.innerHTML=`<div class="empty">${t().emp}</div>`;return}
+  el.innerHTML=items.map((x,i)=>{
+    const url=gmapUrl(x.loc);
+    const locHtml=url?`<div class="card-loc"><i class="ti ti-map-pin" aria-hidden="true"></i><a href="${url}" target="_blank">${esc(x.loc||'')}</a><button class="btn btn-sm btn-teal" style="height:22px;padding:0 8px;font-size:10px" onclick="editLoc(${i})"><i class="ti ti-edit" aria-hidden="true"></i></button></div>`
+    :`<div class="card-loc"><i class="ti ti-map-pin" style="color:#d4d4d8" aria-hidden="true"></i><button class="btn btn-sm" style="background:none;color:var(--sub);border:1px dashed var(--bdr);height:22px;padding:0 8px;font-size:10px" onclick="editLoc(${i})"><i class="ti ti-plus" aria-hidden="true"></i> 新增地點</button></div>`;
+    return`<div class="card"><div class="card-top">${x.tm?`<span class="cmeta" style="min-width:38px">${x.tm}</span>`:''} ${pill(x.c)}<span class="clbl">${esc(x.n)}</span><button class="del-btn" onclick="delIt(${i})" aria-label="delete"><i class="ti ti-x"></i></button></div>${locHtml}</div>`;
+  }).join('');
+}
+function addIt(){
+  const n=document.getElementById('it-n').value.trim();if(!n)return;
+  const k='d'+ci;if(!D.it[k])D.it[k]=[];
+  D.it[k].push({n,tm:document.getElementById('it-tm').value,c:document.getElementById('it-c').value,loc:document.getElementById('it-loc').value.trim()});
+  document.getElementById('it-n').value='';document.getElementById('it-loc').value='';
+  save();renderIt();
+}
+function delIt(i){
+  const k='d'+ci;const s=(D.it[k]||[]).slice().sort((a,b)=>a.tm.localeCompare(b.tm));D.it[k]=(D.it[k]||[]).filter(x=>x!==s[i]);save();renderIt();
+}
+function editLoc(i){
+  const k='d'+ci;const s=(D.it[k]||[]).slice().sort((a,b)=>a.tm.localeCompare(b.tm));
+  locTarget={k,orig:s[i]};
+  document.getElementById('lm-name').value=s[i].loc||'';
+  document.getElementById('lm-url').value=(s[i].loc||'').startsWith('http')?s[i].loc:'';
+  document.getElementById('loc-modal').classList.add('on');
+}
+function closeLocModal(){document.getElementById('loc-modal').classList.remove('on');locTarget=null}
+function saveLocModal(){
+  if(!locTarget)return;
+  const url=document.getElementById('lm-url').value.trim();
+  const name=document.getElementById('lm-name').value.trim();
+  const val=url||name;
+  D.it[locTarget.k]=D.it[locTarget.k].map(x=>x===locTarget.orig?{...x,loc:val}:x);
+  save();closeLocModal();renderIt();
+}
+
+function renderEx(){
+  const tJ=D.ex.reduce((s,e)=>s+(e.cur==='JPY'?e.a:e.a/R),0),tH=tJ*R;
+  document.getElementById('bst').innerHTML=`
+    <div class="stat stat-pink"><div class="sv sv-pink">¥${Math.round(tJ).toLocaleString()}</div><div class="sl">${t().sp}</div></div>
+    <div class="stat stat-teal"><div class="sv sv-teal">HK$${Math.round(tH).toLocaleString()}</div><div class="sl">${t().sh}</div></div>
+    <div class="stat stat-amber"><div class="sv sv-amber">${D.ex.length?'¥'+Math.round(tJ/3.5).toLocaleString():'—'}</div><div class="sl">${t().pp}</div></div>`;
+  const el=document.getElementById('ex-list');
+  if(!D.ex.length){el.innerHTML=`<div class="empty">${t().emp}</div>`;return}
+  el.innerHTML=[...D.ex].reverse().map((e,ri)=>{
+    const j=e.cur==='JPY'?e.a:e.a/R,h=j*R,oi=D.ex.length-1-ri;
+    return`<div class="card"><div class="card-top">${pill(e.c)}<span class="clbl">${esc(e.n)}</span><span class="cmeta">${e.cur==='JPY'?'¥'+Math.round(e.a).toLocaleString():'HK$'+Math.round(e.a).toLocaleString()}</span><span class="csub">${e.cur==='JPY'?'≈HK$'+Math.round(h):'≈¥'+Math.round(j).toLocaleString()}</span><button class="del-btn" onclick="delEx(${oi})" aria-label="del"><i class="ti ti-x"></i></button></div></div>`;
+  }).join('');
+}
+function addEx(){
+  const n=document.getElementById('ex-n').value.trim(),a=parseFloat(document.getElementById('ex-a').value);
+  if(!n||isNaN(a)||a<=0)return;
+  D.ex.push({n,a,cur:document.getElementById('ex-cur').value,c:document.getElementById('ex-c').value});
+  document.getElementById('ex-n').value='';document.getElementById('ex-a').value='';save();renderEx();
+}
+function delEx(i){D.ex.splice(i,1);save();renderEx();}
+
+function renderPk(){
+  const tot=D.pk.length,done=D.pk.filter(p=>p.d).length;
+  document.getElementById('pst').innerHTML=`
+    <div class="stat stat-pink"><div class="sv sv-pink">${tot}</div><div class="sl">${t().it}</div></div>
+    <div class="stat stat-teal"><div class="sv sv-teal">${done}</div><div class="sl">${t().pk}</div></div>
+    <div class="stat stat-amber"><div class="sv sv-amber">${tot-done}</div><div class="sl">${t().lf}</div></div>`;
+  const el=document.getElementById('pk-list');
+  if(!D.pk.length){el.innerHTML=`<div class="empty">${t().emp}</div>`;return}
+  el.innerHTML=D.pk.map((p,i)=>`<div class="card${p.d?' done':''}"><div class="card-top"><button class="chk${p.d?' on':''}" onclick="togPk(${i})" aria-label="toggle">${p.d?'<i class="ti ti-check" style="font-size:12px"></i>':''}</button>${pill(p.c)}<span class="clbl">${esc(p.n)}</span><button class="del-btn" onclick="delPk(${i})" aria-label="del"><i class="ti ti-x"></i></button></div></div>`).join('');
+}
+function addPk(){
+  const n=document.getElementById('pk-n').value.trim();if(!n)return;
+  D.pk.push({n,c:document.getElementById('pk-c').value,d:false});
+  document.getElementById('pk-n').value='';save();renderPk();
+}
+function togPk(i){D.pk[i].d=!D.pk[i].d;save();renderPk();}
+function delPk(i){D.pk.splice(i,1);save();renderPk();}
+
+function renderBk(){
+  const el=document.getElementById('bk-list');
+  if(!D.bk.length){el.innerHTML=`<div class="empty">${t().emp}</div>`;return}
+  el.innerHTML=D.bk.map((b,i)=>`<div class="card"><div class="card-top">${pill(b.t)}<span class="clbl">${esc(b.n)}</span>${b.d?`<span class="cmeta">${b.d}</span>`:''}<button class="del-btn" onclick="delBk(${i})" aria-label="del"><i class="ti ti-x"></i></button></div>${b.ref||b.link?`<div class="card-loc">${b.ref?`<span class="csub" style="flex:1"># ${esc(b.ref)}</span>`:''}${b.link?`<a href="${esc(b.link)}" target="_blank" style="font-size:11px;color:var(--teal)"><i class="ti ti-external-link"></i> 查看訂單</a>`:''}</div>`:''}</div>`).join('');
+}
+function addBk(){
+  const n=document.getElementById('bk-n').value.trim();if(!n)return;
+  D.bk.push({n,d:document.getElementById('bk-d').value,t:document.getElementById('bk-t').value,ref:document.getElementById('bk-ref').value.trim(),link:document.getElementById('bk-link').value.trim()});
+  document.getElementById('bk-n').value='';document.getElementById('bk-ref').value='';document.getElementById('bk-link').value='';
+  save();renderBk();
+}
+function delBk(i){D.bk.splice(i,1);save();renderBk();}
+
+function saveNote(){D.note=document.getElementById('note-ta').value;save();}
+function addTemplate(type){
+  const ta=document.getElementById('note-ta');
+  const tpl={food:'\n🍜 餐廳推薦：\n- 一蘭拉麵\n- 壽司大（築地）\n- 牛角燒肉\n',shop:'\n🛍 購物清單：\n□ 藥妝（鹽酸鹽、肌研）\n□ 零食手信\n□ Don Quijote\n',todo:'\n✅ 出發前待辦：\n□ 兌換日圓\n□ 下載Google Maps離線地圖\n□ 確認護照有效期\n'};
+  ta.value+=(tpl[type]||'');D.note=ta.value;save();
+}
+
+function mapSearch(){
+  const q=document.getElementById('ms-q').value.trim();
+  if(!q)return;
+  openLink('https://www.google.com/maps/search/'+encodeURIComponent(q+' Tokyo'));
+}
+
+function shareData(){
+  try{
+    const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(D))));
+    const url=window.location.href.split('#')[0]+'#data='+encoded;
+    navigator.clipboard.writeText(url).then(()=>{
+      const ok=document.getElementById('copy-ok');
+      ok.style.display='inline';
+      setTimeout(()=>ok.style.display='none',2500);
+    });
+  }catch(e){
+    alert('請手動複製此頁面網址分享給家人！');
+  }
+}
+
+try{
+  const hash=window.location.hash;
+  if(hash.includes('data=')){
+    const enc=hash.split('data=')[1];
+    const loaded=JSON.parse(decodeURIComponent(escape(atob(enc))));
+    D={...D,...loaded};save();
+  }
+}catch(e){}
+
+buildDays();render();
+document.getElementById('note-ta').value=D.note||'';
+</script>
